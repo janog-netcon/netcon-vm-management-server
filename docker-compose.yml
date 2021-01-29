@@ -1,0 +1,18 @@
+version: '3.2'
+services:
+  flask:
+    build: .
+    container_name: flask_release
+    restart: always
+    ports: ['127.0.0.1:8950:81']
+    networks:
+      - j47
+      - default
+    environment:
+      - FLASK_APP=app.py
+      - 'RUN=flask run --host=0.0.0.0 --port=81'
+    tty: true
+
+networks:
+  j47:
+    external: true
