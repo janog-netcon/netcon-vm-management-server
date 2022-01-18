@@ -11,7 +11,7 @@ def create_startup_script(user_id, password):
     #startup_script += 'sudo sed -i "/^[^#]*PasswordAuthentication[[:space:]]no/c\PasswordAuthentication yes" /etc/ssh/sshd_config\n'
     #startup_script += 'sudo service sshd restart'
     startup_script += 'sleep 10s\n'
-    startup_script += 'curl -s -b eve-ng_user.cookie -c eve-ng_user.cookie -X POST -d \'{"username":"j47-staff","password":"BLAH"}\' ' + URL + '/auth/login \n'
+    startup_script += 'curl -s -b eve-ng_user.cookie -c eve-ng_user.cookie -X POST -d \'{"username":"janog-staff","password":"BLAH"}\' ' + URL + '/auth/login \n'
 
     ### login create user
     #startup_script += 'curl -s -b eve-ng_user.cookie -c eve-ng_user.cookie -X POST -d \'{"username":"' + user_id + '","password":"' + password + '"}\' ' + URL + '/auth/login \n'
