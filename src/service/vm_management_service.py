@@ -67,7 +67,7 @@ def get_gce_instances(project, zone):
     }
 
 def create_instance(machine_image_name, project, zone, problem_id):
-    user_id = "j47-user"
+    user_id = "janoger"
     password = string_generator.get_random_string_with_symbol(8)
 
     response = gce_client.create_instance(machine_image_name, project, zone, user_id, password)
