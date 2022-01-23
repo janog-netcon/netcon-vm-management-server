@@ -16,7 +16,10 @@ COPY app.py /var/app
 COPY src/ /var/app/src/
 COPY env/creds.json /var/app/
 COPY env/startup_script.sh /var/app/
-COPY env/default.conf /etc/nginx/conf.d/default.conf
+
+# nginx conf for flask app
+# COPY env/vmms.conf /etc/nginx/conf.d/
+# COPY env/vmms.conf /etc/nginx/conf.d/
 COPY env/uwsgi.ini /var/app/
 
 CMD ["/bin/bash", "/var/app/startup_script.sh"]
