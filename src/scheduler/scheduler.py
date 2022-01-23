@@ -55,31 +55,31 @@ def sync(project, zone):
             try:
                 flask.logger.warning("sync " + str(instance_name) + " status diff vm=" + str(gce_instance['status']) + " db="+ str(problem_environment['status']))
                 db_client.post_problem_environments(
-                    problem_environment['problem_id'],
-                    problem_environment['instance_name'],
-                    problem_environment['machine_image_name'],
-                    gce_instance['status'],
-                    problem_environment['user_id'],
-                    problem_environment['password'],
-                    problem_environment['domain'],
-                    problem_environment['project'],
-                    problem_environment['zone'],
-                    'SSH',
-                    50080
+                    problem_id=problem_environment['problem_id'],
+                    name=problem_environment['instance_name'],
+                    machine_image_name=problem_environment['machine_image_name'],
+                    status=gce_instance['status'],
+                    user=problem_environment['user_id'],
+                    password=problem_environment['password'],
+                    host=problem_environment['domain'],
+                    project=problem_environment['project'],
+                    zone=problem_environment['zone'],
+                    service='SSH',
+                    port=50080
                 )
                 """
                 db_client.post_problem_environments(
-                    problem_environment['problem_id'],
-                    problem_environment['instance_name'],
-                    problem_environment['machine_image_name'],
-                    gce_instance['status'],
-                    problem_environment['user_id'],
-                    problem_environment['password'],
-                    problem_environment['domain'],
-                    problem_environment['project'],
-                    problem_environment['zone'],
-                    'HTTPS',
-                    443
+                    problem_id=problem_environment['problem_id'],
+                    name=problem_environment['instance_name'],
+                    machine_image_name=problem_environment['machine_image_name'],
+                    status=gce_instance['status'],
+                    user=problem_environment['user_id'],
+                    password=problem_environment['password'],
+                    host=problem_environment['domain'],
+                    project=problem_environment['project'],
+                    zone=problem_environment['zone'],
+                    service='HTTPS',
+                    port=443
                 )
                 """
                 flask.logger.warning("sync successfully done : " + str(instance_name))
