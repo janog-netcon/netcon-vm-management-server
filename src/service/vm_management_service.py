@@ -92,8 +92,8 @@ def create_instance(machine_image_name, project, zone, problem_id):
         flask.logger.error("failed to add nginx domain file")
 
     try:
-        db_client.post_problem_environments(problem_id, response['name'], machine_image_name, response['status'], user_id, password, external_ip, project, zone, 'SSH', 50080)
-        #db_client.post_problem_environments(problem_id, response['name'], machine_image_name, response['status'], user_id, password, domain, project, zone, 'HTTPS', 443)
+        db_client.post_problem_environments(problem_id, response['name'], machine_image_name, response['status'], user_id, password, external_ip, project, 50080, 'SSH', zone)
+        #db_client.post_problem_environments(problem_id, response['name'], machine_image_name, response['status'], user_id, password, domain, project, 443, 'HTTPS', zone)
     except:
         flask.logger.error("failed to update DB" + str(response))
         delete_instance(response['name'], project, zone)

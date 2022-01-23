@@ -17,7 +17,7 @@ else:
     ]
 
 # db settings
-host_db = 'http://netcon-score-server_vmdb-api_1:8080'
+host_db = 'http://vmdb-api:8080'
 
 connection_timeout = 3.0
 read_timeout = 10.0
