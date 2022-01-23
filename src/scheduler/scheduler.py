@@ -1,6 +1,7 @@
 import time
 import atexit
 import datetime
+from datetime import timezone
 from src import config
 from src.client import gce_client, db_client
 from src.service import vm_management_service
@@ -15,6 +16,23 @@ def synchronizer():
         zone = project_zone_tupple[1]
         flask.logger.warning("sync : " + project+ " " + zone)
         sync(project, zone)
+
+def set_inner_status_for_preparing(problem_environment):
+    """
+    vm instanciate time
+      "created_at":"2022-01-24T00:34:56.227757Z"
+    vm
+      NOT_READY -> READY if created_at + minutes >= now
+
+    """
+    created_at = datetime.datetime.strptime(problem_environment['created_at'], '%Y-%m-%dT%H:%M:%S.%f%z')
+    minutes = config.wait_duration_minutes_dict(problem_environment['machine_image_name'])
+
+    if datetime.datetime.now >= datetime.datetime.timedelta(minutes=minutes) and problem_environment['status'] == 'READY':
+        return 'READY'
+    else:
+        # inner
+        return problem_environment['status']
 
 def sync(project, zone):
     try:
@@ -51,6 +69,24 @@ def sync(project, zone):
         except:
             flask.logger.error(str(instance_name) + " not found on db")
             continue
+
+        """
+        vm instanciate time
+          "created_at":"2022-01-24T00:34:56.227757Z"
+        vm
+
+        """
+        created_at = datetime.datetime.strptime(problem_environment['created_at'], '%Y-%m-%dT%H:%M:%S.%f%z')
+        minutes = config.wait_duration_minutes_dict[problem_environment['machine_image_name']]
+
+        future = created_at + datetime.timedelta(minutes=minutes)
+        now = datetime.datetime.now(timezone.utc)
+
+        # now
+        if (now < future) and gce_instance['status'] == 'RUNNING':
+           flask.logger.warning("not sync before running" + str(instance_name))
+           continue
+
         if gce_instance['status'] != problem_environment['status']:
             try:
                 flask.logger.warning("sync " + str(instance_name) + " status diff vm=" + str(gce_instance['status']) + " db="+ str(problem_environment['status']))
