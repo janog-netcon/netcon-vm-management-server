@@ -17,23 +17,6 @@ def synchronizer():
         flask.logger.warning("sync : " + project+ " " + zone)
         sync(project, zone)
 
-def set_inner_status_for_preparing(problem_environment):
-    """
-    vm instanciate time
-      "created_at":"2022-01-24T00:34:56.227757Z"
-    vm
-      NOT_READY -> READY if created_at + minutes >= now
-
-    """
-    created_at = datetime.datetime.strptime(problem_environment['created_at'], '%Y-%m-%dT%H:%M:%S.%f%z')
-    minutes = config.wait_duration_minutes_dict(problem_environment['machine_image_name'])
-
-    if datetime.datetime.now >= datetime.datetime.timedelta(minutes=minutes) and problem_environment['status'] == 'READY':
-        return 'READY'
-    else:
-        # inner
-        return problem_environment['status']
-
 def sync(project, zone):
     try:
         get_instances_response = vm_management_service.get_gce_instances(project, zone)
@@ -70,22 +53,23 @@ def sync(project, zone):
             flask.logger.error(str(instance_name) + " not found on db")
             continue
 
-        """
-        vm instanciate time
-          "created_at":"2022-01-24T00:34:56.227757Z"
-        vm
-
-        """
         created_at = datetime.datetime.strptime(problem_environment['created_at'], '%Y-%m-%dT%H:%M:%S.%f%z')
         minutes = config.wait_duration_minutes_dict[problem_environment['machine_image_name']]
 
         future = created_at + datetime.timedelta(minutes=minutes)
-        now = datetime.datetime.now(timezone.utc)
+        now = datetime.datetime.now(timezone.utc) + datetime.timedelta(hours=+9)
 
-        # now
+        flask.logger.warning(now)
+        flask.logger.warning(created_at)
+        flask.logger.warning(minutes)
+        flask.logger.warning(future)
+
+        # STAGING shouldn't be changed to RUNNING if current time is before created_at + minutes
+        # Score server will assign the VM to user iff status == RUNNING and inner_status is null
         if (now < future) and gce_instance['status'] == 'RUNNING':
-           flask.logger.warning("not sync before running" + str(instance_name))
+           flask.logger.warning("NO SYNC, waiting for preparation  : " + str(instance_name) + " " + gce_instance['status'])
            continue
+
 
         if gce_instance['status'] != problem_environment['status']:
             try:
