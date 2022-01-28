@@ -24,7 +24,8 @@ def get_instances():
                 "status": content['status'],
                 "problem_id": content['problem_id'],
                 "user_id": content['user'],
-                "password": content['password']
+                "password": content['password'],
+                "created_at": content['created_at']
             }
         )
     return {

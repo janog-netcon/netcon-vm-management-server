@@ -11,9 +11,9 @@ if env == "PROD":
     ]
 else:
     project_zone_list = [
-        ('janog47-netcon-dev', 'asia-northeast1-a'),
-        ('janog47-netcon-dev', 'asia-northeast1-b'),
-        ('janog47-netcon-dev', 'asia-northeast1-c')
+        ('testing-environment-228409', 'asia-northeast1-b'),
+        ('testing-environment-228409', 'asia-northeast2-a'),
+        ('testing-environment-228409', 'asia-east1-b')
     ]
 
 # db settings
@@ -25,6 +25,22 @@ retries = 5
 
 # scheduler settings
 synchronizer_seconds = 20
+
+wait_duration_minutes_dict = {
+  "image-aki-1": 5,
+  "image-iys-1": 20,
+  "image-kat1-1": 5,
+  "image-kat2-2": 15,
+  "image-nas-1": 10,
+  "image-nemo-1": 5,
+  "image-otsuka-1": 20,
+  "image-shiozawa-1": 5,
+  "image-takeda-1": 20,
+  "image-tanioka1-1": 5,
+  "image-tanioka2-2": 20,
+  "image-abe-1": 5,
+  "image-alisa-1": 15
+}
 
 # wrapper for config variables
 def get_proxy_domain_suffix():
