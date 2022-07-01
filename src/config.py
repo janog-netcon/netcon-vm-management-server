@@ -27,7 +27,26 @@ retries = 5
 synchronizer_seconds = 20
 
 wait_duration_minutes_dict = {
+  "image-nas002": 5,
+  "image-nas003": 5,
   "image-iys001": 5,
+  "image-iys002": 5,
+  "image-shu001": 5,
+  "image-shu002": 5,
+  "image-yok002": 5,
+  "image-yok001": 5,
+  "image-aoi001": 5,
+  "image-nas001": 5,
+  "image-pro001": 5,
+  "image-ohi001": 5,
+  "image-ali001": 5,
+  "image-ats001": 5,
+  "image-tak001": 5,
+  "image-ots001": 5,
+  "image-aki003": 5,
+  "image-pro002": 5,
+  "image-aki001": 5,
+  "image-aki002": 5,
 }
 
 # wrapper for config variables
