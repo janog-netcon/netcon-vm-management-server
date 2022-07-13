@@ -87,12 +87,13 @@ def create_instance(machine_image_name, project, zone, user_id, password):
     }
     request = service.instances().insert(project=project, zone=zone, body=request_body)
     response = request.execute()
+    flask.logger.debug("First VM insert response: " + response)
     response["name"] = name
     try:
         response = request.execute()
-        flask.logger.debug(response)
     except errors.HttpError as err:
         if err.resp.status == 409:
+            flask.logger.debug("Second VM insert response: " + response)
             return response
         flask.logger.error("gce_client error : " + str(err.resp.status) + " " + str(err._get_reason()))    
     return response
