@@ -85,7 +85,10 @@ def create_instance(machine_image_name, project, zone, user_id, password):
     }
     request = service.instances().insert(project=project, zone=zone, body=request_body)
     response = request.execute()
-    flask.logger.debug("VM insert response: " + str(response))
+    flask.logger.debug("First VM insert response: " + str(response))
+
+    # client expects `name` attribute equals vm name (insert call returns operation name)
+    response["name"] = name
     return response
 
 def delete_instance(instance_name, project, zone):
