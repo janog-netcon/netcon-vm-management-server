@@ -70,6 +70,10 @@ def create_instance(machine_image_name, project, zone, user_id, password):
 
     request_body = {
         "name": name,
+        "scheduling":
+            {
+                "preemptible": "false"
+            },
         "sourceMachineImage": "https://www.googleapis.com/compute/v1/projects/" + project + "/global/machineImages/" + machine_image_name,
         "metadata": {
             "kind": "compute#metadata",
