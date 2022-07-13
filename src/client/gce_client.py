@@ -85,15 +85,7 @@ def create_instance(machine_image_name, project, zone, user_id, password):
     }
     request = service.instances().insert(project=project, zone=zone, body=request_body)
     response = request.execute()
-    flask.logger.debug("First VM insert response: " + str(response))
-    response["name"] = name
-    try:
-        response = request.execute()
-    except errors.HttpError as err:
-        if err.resp.status == 409:
-            flask.logger.debug("Second VM insert response: " + str(response))
-            return response
-        flask.logger.error("gce_client error : " + str(err.resp.status) + " " + str(err._get_reason()))    
+    flask.logger.debug("VM insert response: " + str(response))
     return response
 
 def delete_instance(instance_name, project, zone):
