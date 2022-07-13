@@ -11,7 +11,7 @@ from src.client.startup_script import create_startup_script
 from src.client.dto.instances_list_response import instances_list_response
 
 flask = Flask(__name__)    
-flask.logger.setLevel(logging.ERROR)
+flask.logger.setLevel(logging.DEBUG)
 
 def get_service_by_version(version):
     credentials = GoogleCredentials.get_application_default()
