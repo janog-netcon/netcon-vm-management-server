@@ -1,5 +1,6 @@
 import json
 from flask import Flask, abort
+import logging
 from googleapiclient import discovery
 from googleapiclient import errors
 from oauth2client.client import GoogleCredentials
@@ -10,6 +11,7 @@ from src.client.startup_script import create_startup_script
 from src.client.dto.instances_list_response import instances_list_response
 
 flask = Flask(__name__)    
+flask.logger.setLevel(logging.ERROR)
 
 def get_service_by_version(version):
     credentials = GoogleCredentials.get_application_default()
